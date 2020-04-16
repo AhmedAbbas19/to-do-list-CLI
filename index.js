@@ -10,7 +10,7 @@ program
 
 // console.log(program.opts());
 
-const myStatus = ["to-do", "done", "“in progress"];
+const myStatus = ["to-do", "done", "in progress"];
 
 const readDB = () => {
   let db = fs.readFileSync("db.json", "utf8") || "[]";
