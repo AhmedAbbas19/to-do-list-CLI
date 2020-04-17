@@ -1,3 +1,4 @@
+const chalk = require("chalk");
 const fs = require("fs");
 const { program } = require("commander");
 program.version("0.0.1");
@@ -32,7 +33,7 @@ const addNote = (title) => {
   db.push(newEntry);
 
   writeDB(db);
-  console.log("Note added successfully.");
+  console.log(chalk.green("Note added successfully."));
 };
 const listNotes = (status) => {
   if (status && !myStatus.includes(status)) {
@@ -41,13 +42,13 @@ const listNotes = (status) => {
   const db = readDB();
   for (const note of db) {
     if (note.status === status || status === undefined) {
-      console.log("[Title: " + note.title + ", Status: " + note.status + "]");
+      console.log(
+        chalk.blue("[Title: " + note.title + ", Status: " + note.status + "]")
+      );
     }
   }
 };
 const editNote = (newTitle, newStatus, id) => {
-  console.log("My mine", id);
-
   if (!id) {
     throw new Error("Id is required for this action");
   }
@@ -61,7 +62,7 @@ const editNote = (newTitle, newStatus, id) => {
 
   const noteIdx = db.findIndex((n) => n.id === +id);
   if (noteIdx === -1) {
-    console.log("Note id is invalid.");
+    console.log(chalk.red("Note id is invalid."));
   } else {
     if (newStatus) {
       db[noteIdx].status = newStatus;
@@ -70,7 +71,7 @@ const editNote = (newTitle, newStatus, id) => {
       db[noteIdx].title = newTitle;
     }
     writeDB(db);
-    console.log("Note edited successfully");
+    console.log(chalk.green("Note edited successfully"));
   }
 };
 const deleteNote = (id) => {
@@ -81,11 +82,11 @@ const deleteNote = (id) => {
 
   const noteIdx = db.findIndex((n) => n.id === +id);
   if (noteIdx === -1) {
-    console.log("Note id is invalid.");
+    console.log(chalk.red("Note id is invalid."));
   } else {
     db.splice(noteIdx, 1);
     writeDB(db);
-    console.log("Note deleted successfully");
+    console.log(chalk.green("Note deleted successfully"));
   }
 };
 
@@ -106,7 +107,9 @@ switch (action.toLowerCase()) {
     break;
   default:
     console.log(
-      "Invalid action. Try 'node index.js add -t Good' to add new note ;)"
+      chalk.red(
+        "Invalid action. Try 'node index.js add -t Good' to add new note ;)"
+      )
     );
     break;
 }
